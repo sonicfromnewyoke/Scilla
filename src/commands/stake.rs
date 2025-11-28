@@ -1,4 +1,4 @@
-use crate::{context::ScillaContext, error::ScillaResult};
+use crate::{commands::CommandExec, context::ScillaContext, error::ScillaResult};
 
 /// Commands related to staking operations
 #[derive(Debug, Clone)]
@@ -11,11 +11,11 @@ pub enum StakeCommand {
     Split,
     Show,
     History,
-    Back,
+    GoBack,
 }
 
 impl StakeCommand {
-    pub async fn process_command(&self, ctx: &ScillaContext) -> ScillaResult<()> {
+    pub async fn process_command(&self, _ctx: &ScillaContext) -> ScillaResult<()> {
         match self {
             StakeCommand::Create => todo!(),
             StakeCommand::Delegate => todo!(),
@@ -25,8 +25,9 @@ impl StakeCommand {
             StakeCommand::Split => todo!(),
             StakeCommand::Show => todo!(),
             StakeCommand::History => todo!(),
-            StakeCommand::Back => {}
+            StakeCommand::GoBack => {
+                return Ok(CommandExec::GoBack);
+            }
         }
-        Ok(())
     }
 }

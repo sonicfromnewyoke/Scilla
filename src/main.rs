@@ -1,5 +1,6 @@
 use crate::{
-    config::ScillaConfig, context::ScillaContext, error::ScillaResult, prompt::prompt_for_command,
+    commands::CommandExec, config::ScillaConfig, context::ScillaContext, error::ScillaResult,
+    prompt::prompt_for_command,
 };
 use console::style;
 
@@ -21,18 +22,22 @@ async fn main() -> ScillaResult<()> {
 
     println!(
         "{}",
-        style("⚡ Scilla — Welcome to The Matrix").bold().cyan()
+        style("⚡ Scilla — Hacking Through the Solana Matrix")
+            .bold()
+            .cyan()
     );
 
     loop {
         let command = prompt_for_command()?;
 
-        let _res = command.process_command(&ctx).await;
+        let res = command.process_command(&ctx).await?;
 
-        break;
+        match res {
+            CommandExec::Process(_) => continue,
+            CommandExec::GoBack => continue,
+            CommandExec::Exit => break,
+        }
     }
 
-    println!("{}", style("Goodbye 👋").dim());
-
-    Ok(())
+    Ok(CommandExec::Exit)
 }

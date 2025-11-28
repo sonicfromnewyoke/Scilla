@@ -1,6 +1,8 @@
 use thiserror::Error;
 
-pub type ScillaResult<T> = anyhow::Result<T>;
+use crate::commands::CommandExec;
+
+pub type ScillaResult<T> = anyhow::Result<CommandExec<T>>;
 
 #[derive(Debug, Error)]
 pub enum ScillaError {

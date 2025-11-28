@@ -1,6 +1,6 @@
 use console::style;
 
-use crate::{context::ScillaContext, error::ScillaResult, ui::show_spinner};
+use crate::{commands::CommandExec, context::ScillaContext, error::ScillaResult, ui::show_spinner};
 
 /// Commands related to wallet or account management
 #[derive(Debug, Clone)]
@@ -11,6 +11,7 @@ pub enum AccountCommand {
     ConfirmTransaction,
     LargestAccounts,
     NonceAccount,
+    GoBack,
 }
 
 impl AccountCommand {
@@ -22,6 +23,7 @@ impl AccountCommand {
             AccountCommand::ConfirmTransaction => "Confirm a pending transaction",
             AccountCommand::LargestAccounts => "Fetch cluster’s largest accounts",
             AccountCommand::NonceAccount => "Inspect or manage nonce accounts",
+            AccountCommand::GoBack => "Go back",
         }
     }
 }
@@ -35,10 +37,11 @@ impl AccountCommand {
             AccountCommand::ConfirmTransaction => todo!(),
             AccountCommand::LargestAccounts => todo!(),
             AccountCommand::NonceAccount => todo!(),
+            AccountCommand::GoBack => return Ok(CommandExec::GoBack),
         };
 
         show_spinner(self.description(), task).await?;
-        Ok(())
+        Ok(CommandExec::Process(()))
     }
 }
 
@@ -61,5 +64,5 @@ async fn request_sol_airdrop(ctx: &ScillaContext) -> ScillaResult<()> {
         }
     }
 
-    Ok(())
+    Ok(CommandExec::Process(()))
 }

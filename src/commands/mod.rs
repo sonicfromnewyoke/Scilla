@@ -1,3 +1,7 @@
+use std::process::{ExitCode, Termination};
+
+use console::style;
+
 use crate::{
     commands::{
         account::AccountCommand, cluster::ClusterCommand, config::ConfigCommand,
@@ -13,6 +17,19 @@ pub mod config;
 pub mod stake;
 pub mod vote;
 
+pub enum CommandExec<T> {
+    Process(T),
+    GoBack,
+    Exit,
+}
+
+impl<T> Termination for CommandExec<T> {
+    fn report(self) -> std::process::ExitCode {
+        println!("{}", style("Goodbye 👋").dim());
+        ExitCode::SUCCESS
+    }
+}
+
 #[derive(Debug, Clone)]
 pub enum Command {
     Cluster(ClusterCommand),
@@ -26,13 +43,12 @@ pub enum Command {
 impl Command {
     pub async fn process_command(&self, ctx: &ScillaContext) -> ScillaResult<()> {
         match self {
-            Command::Cluster(cluster_command) => todo!(),
-            Command::Stake(stake_command) => stake_command.process_command(ctx).await?,
-            Command::Account(account_command) => account_command.process_command(ctx).await?,
-            Command::Vote(vote_command) => todo!(),
-            Command::ScillaConfig(config_command) => todo!(),
-            Command::Exit => {}
+            Command::Cluster(_cluster_command) => todo!(),
+            Command::Stake(stake_command) => stake_command.process_command(ctx).await,
+            Command::Account(account_command) => account_command.process_command(ctx).await,
+            Command::Vote(_vote_command) => todo!(),
+            Command::ScillaConfig(_config_command) => todo!(),
+            Command::Exit => return Ok(CommandExec::Exit),
         }
-        Ok(())
     }
 }

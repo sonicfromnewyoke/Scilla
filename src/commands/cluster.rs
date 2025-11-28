@@ -9,4 +9,5 @@ pub enum ClusterCommand {
     Supply,
     Inflation,
     ClusterVersion,
+    GoBack,
 }

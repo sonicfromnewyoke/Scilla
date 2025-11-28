@@ -73,7 +73,7 @@ fn prompt_stake() -> anyhow::Result<StakeCommand> {
             "Split Stake",
             "Show Stake Account",
             "Stake History",
-            "Back",
+            "Go Back",
         ],
     )
     .prompt()?;
@@ -87,6 +87,7 @@ fn prompt_stake() -> anyhow::Result<StakeCommand> {
         "Split Stake" => StakeCommand::Split,
         "Show Stake Account" => StakeCommand::Show,
         "Stake History" => StakeCommand::History,
+        "Go Back" => StakeCommand::GoBack,
         _ => unreachable!(),
     })
 }
@@ -101,6 +102,7 @@ fn prompt_account() -> anyhow::Result<AccountCommand> {
             "Confirm Transaction",
             "Largest Accounts",
             "Nonce Account Info",
+            "Go Back",
         ],
     )
     .prompt()?;
@@ -112,6 +114,7 @@ fn prompt_account() -> anyhow::Result<AccountCommand> {
         "Confirm Transaction" => AccountCommand::ConfirmTransaction,
         "Largest Accounts" => AccountCommand::LargestAccounts,
         "Nonce Account Info" => AccountCommand::NonceAccount,
+        "Go Back" => AccountCommand::GoBack,
         _ => unreachable!(),
     })
 }
